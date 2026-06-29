@@ -39,33 +39,24 @@ void OBSBasic::copyActionsDynamicProperties()
 	for (QAction *x : ui->scenesToolbar->actions()) {
 		QWidget *temp = ui->scenesToolbar->widgetForAction(x);
 
-		if (!temp)
+		if (!temp) {
 			continue;
+		}
 
 		for (QByteArray &y : x->dynamicPropertyNames()) {
-			temp->setProperty(y, x->property(y));
+			temp->setProperty(y.constData(), x->property(y.constData()));
 		}
 	}
 
 	for (QAction *x : ui->sourcesToolbar->actions()) {
 		QWidget *temp = ui->sourcesToolbar->widgetForAction(x);
 
-		if (!temp)
+		if (!temp) {
 			continue;
-
-		for (QByteArray &y : x->dynamicPropertyNames()) {
-			temp->setProperty(y, x->property(y));
 		}
-	}
-
-	for (QAction *x : ui->mixerToolbar->actions()) {
-		QWidget *temp = ui->mixerToolbar->widgetForAction(x);
-
-		if (!temp)
-			continue;
 
 		for (QByteArray &y : x->dynamicPropertyNames()) {
-			temp->setProperty(y, x->property(y));
+			temp->setProperty(y.constData(), x->property(y.constData()));
 		}
 	}
 }
@@ -92,8 +83,9 @@ void OBSBasic::UpdateContextBarVisibility()
 		contextBarSizeNew = ContextBarSize_Minimized;
 	}
 
-	if (contextBarSize == contextBarSizeNew)
+	if (contextBarSize == contextBarSizeNew) {
 		return;
+	}
 
 	contextBarSize = contextBarSizeNew;
 	UpdateContextBarDeferred();
@@ -101,8 +93,9 @@ void OBSBasic::UpdateContextBarVisibility()
 
 static bool is_network_media_source(obs_source_t *source, const char *id)
 {
-	if (strcmp(id, "ffmpeg_source") != 0)
+	if (strcmp(id, "ffmpeg_source") != 0) {
 		return false;
+	}
 
 	OBSDataAutoRelease s = obs_source_get_settings(source);
 	bool is_local_file = obs_data_get_bool(s, "is_local_file");
@@ -129,10 +122,11 @@ void OBSBasic::SourceToolBarActionsSetEnabled()
 		enable = true;
 	}
 
-	if (disableProps)
+	if (disableProps) {
 		ui->actionSourceProperties->setEnabled(false);
-	else
+	} else {
 		ui->actionSourceProperties->setEnabled(enable);
+	}
 
 	ui->actionRemoveSource->setEnabled(enable);
 	ui->actionSourceUp->setEnabled(enable);
@@ -145,8 +139,9 @@ void OBSBasic::UpdateContextBar(bool force)
 {
 	SourceToolBarActionsSetEnabled();
 
-	if (!ui->contextContainer->isVisible() && !force)
+	if (!ui->contextContainer->isVisible() && !force) {
 		return;
+	}
 
 	OBSSceneItem item = GetCurrentSceneItem();
 
@@ -157,11 +152,13 @@ void OBSBasic::UpdateContextBar(bool force)
 		QLayoutItem *la = ui->emptySpace->layout()->itemAt(0);
 		if (la) {
 			if (SourceToolbar *toolbar = dynamic_cast<SourceToolbar *>(la->widget())) {
-				if (toolbar->GetSource() == source)
+				if (toolbar->GetSource() == source) {
 					updateNeeded = false;
+				}
 			} else if (MediaControls *toolbar = dynamic_cast<MediaControls *>(la->widget())) {
-				if (toolbar->GetSource() == source)
+				if (toolbar->GetSource() == source) {
 					updateNeeded = false;
+				}
 			}
 		}
 
@@ -236,12 +233,13 @@ void OBSBasic::UpdateContextBar(bool force)
 
 		QIcon icon;
 
-		if (strcmp(id, "scene") == 0)
+		if (strcmp(id, "scene") == 0) {
 			icon = GetSceneIcon();
-		else if (strcmp(id, "group") == 0)
+		} else if (strcmp(id, "group") == 0) {
 			icon = GetGroupIcon();
-		else
+		} else {
 			icon = GetSourceIcon(id);
+		}
 
 		QPixmap pixmap = icon.pixmap(QSize(16, 16));
 		ui->contextSourceIcon->setPixmap(pixmap);

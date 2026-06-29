@@ -21,6 +21,69 @@
       }
     },
     {
+      "name": "dependencies",
+      "hidden": true,
+      "vendor": {
+        "obsproject.com/obs-studio": {
+          "dependencies": {
+              "prebuilt": {
+                  "version": "2026-06-25",
+                  "baseUrl": "https://github.com/obsproject/obs-deps/releases/download",
+                  "label": "Pre-Built obs-deps",
+                  "hashes": {
+                      "macos-universal": "09ee1f53ef1b4464fd4f39f9aa3f3193b47e60d8c48b6ffc603f22a83814487e",
+                      "windows-x64": "aea064cc550563d0095603385c22cc52b33de71e57ea3f6ff1ae1d54a0bb9d8a",
+                      "windows-x86": "fde08f54707dbf57da24b21a5db4ccedd4c4eb09b9808a899f9068dc5f1a228d",
+                      "windows-arm64": "53c13f0634ebe27b8fb2aa17378d780210936428514b7bd47f64040c3b30d750"
+                  }
+              },
+              "qt6": {
+                  "version": "2026-06-25",
+                  "baseUrl": "https://github.com/obsproject/obs-deps/releases/download",
+                  "label": "Pre-Built Qt6",
+                  "hashes": {
+                      "macos-universal": "1f3d2b8b3ddf980dfee527471f1f970889f8cdfd8fa0404d9992986034f16260",
+                      "windows-x64": "b30ee3653d6381ca491daa5b30b3cff6deb1b3e7f149f4b087c2fb03a1432023",
+                      "windows-arm64": "7c256175d00d85d062aea88ffbfd096c44c8ad53e10adbbf21b1fc5fb591f98f"
+                  },
+                  "debugSymbols": {
+                      "windows-x64": "be7c1dbde4a8720fc5cf59bb7a4f2ad55ee8b5dc17702e51c347bd4eec24a8e3",
+                      "windows-arm64": "d104eccc9f2457d22e9ddd9ce101b13025872b1d5ae08761b6ced284b773f648"
+                  }
+              },
+              "cef": {
+                  "version": "6533",
+                  "baseUrl": "https://cdn-fastly.obsproject.com/downloads",
+                  "label": "Chromium Embedded Framework",
+                  "hashes": {
+                      "macos-x86_64": "37bf7571a48c5dfa8519817e4a90a3503a0eb30f9eadd68f4c3e783e363f272a",
+                      "macos-arm64": "429b50e74f6c174dcfe2f14d8204b54add497eaafe117f7b69ce6bb2354d2626",
+                      "ubuntu-x86_64": "7963335519a19ccdc5233f7334c5ab023026e2f3e9a0cc417007c09d86608146",
+                      "ubuntu-aarch64": "642514469eaa29a5c887891084d2e73f7dc2d7405f7dfa7726b2dbc24b309999",
+                      "windows-x64": "922efbda1f2f8be9e5b2754d878a14d90afc81f04e94fc9101a7513e2b5cecc1",
+                      "windows-arm64": "df9df4bd85826b4c071c6db404fd59cf93efd9c58ec3ab64e204466ae19bb02a"
+                  },
+                  "revision": {
+                      "macos-x86_64": 5,
+                      "macos-arm64": 5,
+                      "ubuntu-x86_64": 6,
+                      "ubuntu-aarch64": 6,
+                      "windows-x64": 2
+                  }
+              }
+            },
+            "tools": {
+              "sparkle": {
+                  "version": "2.9.2",
+                  "baseUrl": "https://github.com/sparkle-project/Sparkle/releases/download",
+                  "label": "Sparkle 2",
+                  "hash": "1cb340cbbef04c6c0d162078610c25e2221031d794a3449d89f2f56f4df77c95"
+              }
+            }
+          }
+        }
+    },
+    {
       "name": "macos",
       "displayName": "macOS",
       "description": "Default macOS build (single architecture only)",
@@ -53,7 +116,8 @@
       "warnings": {"dev": true, "deprecated": true},
       "cacheVariables": {
         "CMAKE_COMPILE_WARNING_AS_ERROR": true,
-        "ENABLE_CCACHE": true
+        "CMAKE_XCODE_ATTRIBUTE_COMPILATION_CACHE_ENABLE_CACHING": "YES",
+        "CMAKE_XCODE_ATTRIBUTE_COMPILATION_CACHE_CAS_PATH": "$penv{XCODE_CAS_PATH}"
       }
     },
     {
@@ -98,9 +162,9 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
-      "architecture": "x64,version=10.0.22621.0",
+      "architecture": "x64,version=10.0.26100.0",
       "binaryDir": "${sourceDir}/build_x64",
-      "generator": "Visual Studio 17 2022",
+      "generator": "Visual Studio 18 2026",
       "cacheVariables": {
         "GPU_PRIORITY_VAL": {"type": "STRING", "value": "$penv{GPU_PRIORITY_VAL}"},
         "VIRTUALCAM_GUID": {"type": "STRING", "value": "A3FCE0F5-3493-419F-958A-ABA1250EC20B"},
@@ -127,9 +191,9 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
-      "architecture": "ARM64,version=10.0.22621.0",
+      "architecture": "ARM64,version=10.0.26100.0",
       "binaryDir": "${sourceDir}/build_arm64",
-      "generator": "Visual Studio 17 2022",
+      "generator": "Visual Studio 18 2026",
       "cacheVariables": {
         "GPU_PRIORITY_VAL": {"type": "STRING", "value": "$penv{GPU_PRIORITY_VAL}"},
         "VIRTUALCAM_GUID": {"type": "STRING", "value": "A3FCE0F5-3493-419F-958A-ABA1250EC20B"},

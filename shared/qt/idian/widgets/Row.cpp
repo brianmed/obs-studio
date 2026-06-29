@@ -64,8 +64,9 @@ void Row::setPrefix(QWidget *w, bool auto_connect)
 
 	prefix_ = w;
 
-	if (auto_connect)
+	if (auto_connect) {
 		this->connectBuddyWidget(w);
+	}
 
 	prefix_->setParent(this);
 	layout->addWidget(prefix_, 0, 0, Qt::AlignLeft);
@@ -78,8 +79,9 @@ void Row::setSuffix(QWidget *w, bool auto_connect)
 
 	suffix_ = w;
 
-	if (auto_connect)
+	if (auto_connect) {
 		this->connectBuddyWidget(w);
+	}
 
 	suffix_->setParent(this);
 	layout->addWidget(suffix_, 0, 2, Qt::AlignRight | Qt::AlignVCenter);
@@ -87,12 +89,15 @@ void Row::setSuffix(QWidget *w, bool auto_connect)
 
 void Row::setPrefixEnabled(bool enabled)
 {
-	if (!prefix_)
+	if (!prefix_) {
 		return;
-	if (enabled)
+	}
+	if (enabled) {
 		setSuffixEnabled(false);
-	if (enabled == prefix_->isEnabled() && enabled == prefix_->isVisible())
+	}
+	if (enabled == prefix_->isEnabled() && enabled == prefix_->isVisible()) {
 		return;
+	}
 
 	layout->setColumnStretch(0, enabled ? 3 : 0);
 	prefix_->setEnabled(enabled);
@@ -101,12 +106,15 @@ void Row::setPrefixEnabled(bool enabled)
 
 void Row::setSuffixEnabled(bool enabled)
 {
-	if (!suffix_)
+	if (!suffix_) {
 		return;
-	if (enabled)
+	}
+	if (enabled) {
 		setPrefixEnabled(false);
-	if (enabled == suffix_->isEnabled() && enabled == suffix_->isVisible())
+	}
+	if (enabled == suffix_->isEnabled() && enabled == suffix_->isVisible()) {
 		return;
+	}
 
 	suffix_->setEnabled(enabled);
 	suffix_->setVisible(enabled);
@@ -150,17 +158,17 @@ void Row::setChangeCursor(bool change)
 
 void Row::enterEvent(QEnterEvent *event)
 {
-	if (!isEnabled())
+	if (!isEnabled()) {
 		return;
+	}
 
 	if (changeCursor) {
 		setCursor(Qt::PointingHandCursor);
 	}
 
-	Utils::addClass("hover");
-
-	if (buddyWidget)
+	if (buddyWidget) {
 		Utils::repolish(buddyWidget);
+	}
 
 	if (hasPrefix() || hasSuffix()) {
 		Utils::polishChildren();
@@ -171,10 +179,9 @@ void Row::enterEvent(QEnterEvent *event)
 
 void Row::leaveEvent(QEvent *event)
 {
-	Utils::removeClass("hover");
-
-	if (buddyWidget)
+	if (buddyWidget) {
 		Utils::repolish(buddyWidget);
+	}
 
 	if (hasPrefix() || hasSuffix()) {
 		Utils::polishChildren();
@@ -236,6 +243,7 @@ void Row::connectBuddyWidget(QWidget *widget)
 // Button for expanding a collapsible ActionRow
 ExpandButton::ExpandButton(QWidget *parent) : QAbstractButton(parent), Utils(this)
 {
+	Utils::applyStateStylingEventFilter(this);
 	setCheckable(true);
 }
 
@@ -358,13 +366,17 @@ void CollapsibleRow::addRow(GenericRow *actionRow)
 	propertyList->addRow(actionRow);
 }
 
-RowFrame::RowFrame(QWidget *parent) : QFrame(parent), Utils(this) {}
+RowFrame::RowFrame(QWidget *parent) : QFrame(parent), Utils(this)
+{
+	setAttribute(Qt::WA_Hover, true);
+
+	Utils::applyStateStylingEventFilter(this);
+}
 
 void RowFrame::enterEvent(QEnterEvent *event)
 {
 	setCursor(Qt::PointingHandCursor);
 
-	Utils::addClass("hover");
 	Utils::polishChildren();
 
 	QWidget::enterEvent(event);
@@ -372,7 +384,6 @@ void RowFrame::enterEvent(QEnterEvent *event)
 
 void RowFrame::leaveEvent(QEvent *event)
 {
-	Utils::removeClass("hover");
 	Utils::polishChildren();
 
 	QWidget::leaveEvent(event);
