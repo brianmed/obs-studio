@@ -204,6 +204,7 @@ private:
 	/* stream */
 	void InitStreamPage();
 	bool IsCustomService() const;
+	inline bool IsMoQ() const;
 	inline bool IsWHIP() const;
 	void LoadServices(bool showAll);
 	void OnOAuthStreamKeyConnected();
